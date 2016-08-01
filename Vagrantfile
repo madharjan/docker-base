@@ -1,9 +1,9 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
-$vm_name = "ubuntu-14.04"
+$vm_name = "ubuntu-14.04-base"
 $vm_gui = false
-$vm_memory = 1024
+$vm_memory = 768
 $vm_cpus = 1
 $vm_guest = true
 #$network_prefix = "192.168.56."
