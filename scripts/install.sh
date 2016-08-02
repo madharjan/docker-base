@@ -18,7 +18,6 @@ echo -n no > /etc/container_environment/INITRD
 ## Enable Ubuntu Universe and Multiverse.
 sed -i 's/^#\s*\(deb.*universe\)$/\1/g' /etc/apt/sources.list
 sed -i 's/^#\s*\(deb.*multiverse\)$/\1/g' /etc/apt/sources.list
-sed -i 's/archive.ubuntu.com/mirror.nus.edu.sg/g' /etc/apt/sources.list
 
 apt-get update
 
@@ -68,11 +67,9 @@ ln -s /etc/container_environment.sh /etc/profile.d/
 $minimal_apt_get_install runit
 
 ## Install a syslog daemon and logrotate.
-chmod 750 /build/services/syslog-ng/syslog-ng.sh
 [ "$DISABLE_SYSLOG" -eq 0 ] && /build/services/syslog-ng/syslog-ng.sh || true
 
 ## Install cron daemon.
-chmod 750 /build/services/cron/cron.sh
 [ "$DISABLE_CRON" -eq 0 ] && /build/services/cron/cron.sh || true
 
 ## Often used tools.

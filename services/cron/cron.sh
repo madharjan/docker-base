@@ -6,7 +6,8 @@ set -x
 CRON_BUILD_PATH=/build/services/cron
 
 $minimal_apt_get_install cron
-mkdir /etc/service/cron
+
+mkdir -p /etc/service/cron
 chmod 600 /etc/crontab
 cp ${CRON_BUILD_PATH}/cron.runit /etc/service/cron/run
 chmod 750 /etc/service/cron/run

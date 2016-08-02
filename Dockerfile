@@ -1,13 +1,16 @@
 FROM ubuntu:14.04
 MAINTAINER Madhav Raj Maharjan <madhav.maharjan@gmail.com>
 
+LABEL description="Docker baseimage"
+LABEL  os_version="Ubuntu 14.04"
+
 ENV HOME /root
 
 RUN mkdir -p /build
 COPY . /build
 
-RUN chmod 750 /build/scripts/install.sh && /build/scripts/install.sh
-RUN chmod 750 /build/scripts/cleanup.sh && /build/scripts/cleanup.sh
+RUN /build/scripts/install.sh
+RUN /build/scripts/cleanup.sh
 
 WORKDIR /root
 

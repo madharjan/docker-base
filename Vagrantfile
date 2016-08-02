@@ -5,6 +5,7 @@ $vm_name = "ubuntu-14.04-base"
 $vm_gui = false
 $vm_memory = 768
 $vm_cpus = 1
+$vm_proxy = true
 $vm_guest = true
 #$network_prefix = "192.168.56."
 #$ip_start = 100
@@ -59,6 +60,13 @@ Vagrant.configure(2) do |config|
     vb.functional_vboxsf     = $vm_guest
   end
 
+  if Vagrant.has_plugin?("vagrant-proxyconf")
+      config.proxy.enabled = $vm_proxy
+      config.proxy.http = ENV["http_proxy"] || ""
+      config.proxy.https = ENV["http_proxy"] || ""
+      config.proxy.no_proxy = ENV["no_proxy"] || ""
+  end
+  
   if Vagrant.has_plugin?("vagrant-vbguest") then
     config.vbguest.auto_update = $vm_guest
   end
