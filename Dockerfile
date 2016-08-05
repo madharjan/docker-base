@@ -1,8 +1,7 @@
 FROM ubuntu:14.04
 MAINTAINER Madhav Raj Maharjan <madhav.maharjan@gmail.com>
 
-LABEL description="Docker baseimage"
-LABEL  os_version="Ubuntu 14.04"
+LABEL description="Docker baseimage" os_version="Ubuntu 14.04"
 
 ENV HOME /root
 
