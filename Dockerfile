@@ -8,8 +8,7 @@ ENV HOME /root
 RUN mkdir -p /build
 COPY . /build
 
-RUN /build/scripts/install.sh
-RUN /build/scripts/cleanup.sh
+RUN /build/scripts/install.sh && /build/scripts/cleanup.sh
 
 WORKDIR /root
 

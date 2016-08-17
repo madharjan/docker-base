@@ -3,6 +3,7 @@ set -e
 source /build/config/buildconfig
 set -x
 
+apt-get autoremove -y
 apt-get clean
 rm -rf /build
 rm -rf /tmp/* /var/tmp/*
