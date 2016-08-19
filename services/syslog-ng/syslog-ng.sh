@@ -1,12 +1,16 @@
 #!/bin/bash
 set -e
-source /build/config/buildconfig
-set -x
+export LC_ALL=C
+export DEBIAN_FRONTEND=noninteractive
+
+if [ "$DEBUG" == true ]; then
+  set -x
+fi
 
 SYSLOG_NG_BUILD_PATH=/build/services/syslog-ng
 
 ## Install a syslog daemon.
-$minimal_apt_get_install syslog-ng-core
+apt-get install -y --no-install-recommends syslog-ng-core
 mkdir -p /etc/service/syslog-ng
 cp $SYSLOG_NG_BUILD_PATH/syslog-ng.runit /etc/service/syslog-ng/run
 chmod 750 /etc/service/syslog-ng/run
@@ -23,5 +27,5 @@ cp $SYSLOG_NG_BUILD_PATH/syslog-forwarder.runit /etc/service/syslog-forwarder/ru
 chmod 750 /etc/service/syslog-forwarder/run
 
 ## Install logrotate.
-$minimal_apt_get_install logrotate
+apt-get install -y --no-install-recommends logrotate
 cp $SYSLOG_NG_BUILD_PATH/logrotate-syslog-ng /etc/logrotate.d/syslog-ng

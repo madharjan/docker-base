@@ -2,12 +2,18 @@
 NAME = madharjan/docker-base
 VERSION = 14.04
 
-.PHONY: all build test tag_latest release
+.PHONY: all build build_test clean_images test tag_latest release
 
 all: build
 
 build:
 	docker build -t $(NAME):$(VERSION) --rm .
+
+build_test:
+	docker build --build-arg DEBUG=true -t $(NAME):$(VERSION) --rm .
+
+clean_images:
+	docker rmi $(NAME):latest $(NAME):$(VERSION) || true
 
 test:
 	env NAME=$(NAME) VERSION=$(VERSION) ./test/test.sh

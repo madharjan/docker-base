@@ -1,7 +1,15 @@
 #!/bin/bash
 set -e
-source /build/config/buildconfig
-set -x
+export LC_ALL=C
+export DEBIAN_FRONTEND=noninteractive
+
+# Set 1 to the service you want to disable
+export DISABLE_SYSLOG=${DISABLE_SYSLOG:-0}
+export DISABLE_CRON=${DISABLE_CRON:-0}
+
+if [ "$DEBUG" == true ]; then
+  set -x
+fi
 
 ## Temporarily disable dpkg fsync to make building faster.
 if [[ ! -e /etc/dpkg/dpkg.cfg.d/docker-apt-speedup ]]; then
@@ -34,13 +42,13 @@ dpkg-divert --local --rename --add /usr/bin/ischroot
 ln -sf /bin/true /usr/bin/ischroot
 
 ## Install HTTPS support for APT.
-$minimal_apt_get_install apt-transport-https ca-certificates
+apt-get install -y --no-install-recommends apt-transport-https ca-certificates
 
 ## Install add-apt-repository
-$minimal_apt_get_install software-properties-common
+apt-get install -y --no-install-recommends software-properties-common
 
 ## Fix locale.
-$minimal_apt_get_install language-pack-en
+apt-get install -y --no-install-recommends language-pack-en
 locale-gen en_US
 update-locale LANG=en_US.UTF-8 LC_CTYPE=en_US.UTF-8
 echo -n en_US.UTF-8 > /etc/container_environment/LANG
@@ -61,7 +69,7 @@ chmod 640 /etc/container_environment.sh /etc/container_environment.json
 ln -s /etc/container_environment.sh /etc/profile.d/
 
 ## Install runit.
-$minimal_apt_get_install runit
+apt-get install -y --no-install-recommends runit
 
 ## Install a syslog daemon and logrotate.
 [ "$DISABLE_SYSLOG" -eq 0 ] && /build/services/syslog-ng/syslog-ng.sh || true
@@ -70,7 +78,7 @@ $minimal_apt_get_install runit
 [ "$DISABLE_CRON" -eq 0 ] && /build/services/cron/cron.sh || true
 
 ## Often used tools.
-$minimal_apt_get_install curl less nano psmisc wget
+apt-get install -y --no-install-recommends curl less nano psmisc wget
 
 ## This tool runs a command as another user and sets $HOME.
 cp /build/bin/setuser /sbin/setuser

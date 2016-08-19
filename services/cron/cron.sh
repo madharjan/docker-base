@@ -1,11 +1,15 @@
 #!/bin/bash
 set -e
-source /build/config/buildconfig
-set -x
+export LC_ALL=C
+export DEBIAN_FRONTEND=noninteractive
+
+if [ "$DEBUG" == true ]; then
+  set -x
+fi
 
 CRON_BUILD_PATH=/build/services/cron
 
-$minimal_apt_get_install cron
+apt-get install -y --no-install-recommends cron
 
 mkdir -p /etc/service/cron
 chmod 600 /etc/crontab
