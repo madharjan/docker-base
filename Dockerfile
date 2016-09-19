@@ -8,6 +8,8 @@ ENV HOME /root
 ARG UBUNTU_VERSION
 ARG DEBUG=false
 
+ENV UBUNTU_VERSION ${UBUNTU_VERSION}
+
 RUN mkdir -p /build
 COPY . /build
 
