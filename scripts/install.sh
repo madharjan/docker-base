@@ -7,7 +7,7 @@ export DEBIAN_FRONTEND=noninteractive
 export DISABLE_SYSLOG=${DISABLE_SYSLOG:-0}
 export DISABLE_CRON=${DISABLE_CRON:-0}
 
-if [ "$DEBUG" == true ]; then
+if [ "${DEBUG}" == true ]; then
   set -x
 fi
 
@@ -42,13 +42,15 @@ dpkg-divert --local --rename --add /usr/bin/ischroot
 ln -sf /bin/true /usr/bin/ischroot
 
 ## Install HTTPS support for APT.
-apt-get install -y --no-install-recommends apt-transport-https ca-certificates
-
 ## Install add-apt-repository
-apt-get install -y --no-install-recommends software-properties-common
-
 ## Fix locale.
-apt-get install -y --no-install-recommends language-pack-en
+
+apt-get install -y --no-install-recommends \
+  apt-transport-https \
+  ca-certificates \
+  language-pack-en \
+  software-properties-common \
+
 locale-gen en_US
 update-locale LANG=en_US.UTF-8 LC_CTYPE=en_US.UTF-8
 echo -n en_US.UTF-8 > /etc/container_environment/LANG
@@ -78,7 +80,12 @@ apt-get install -y --no-install-recommends runit
 [ "$DISABLE_CRON" -eq 0 ] && /build/services/cron/cron.sh || true
 
 ## Often used tools.
-apt-get install -y --no-install-recommends curl less nano psmisc wget
+apt-get install -y --no-install-recommends \
+  curl \
+  less \
+  nano \
+  psmisc \
+  wget
 
 ## This tool runs a command as another user and sets $HOME.
 cp /build/bin/setuser /sbin/setuser
