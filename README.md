@@ -1,4 +1,7 @@
 # docker-base
+
+[![](https://images.microbadger.com/badges/image/madharjan/docker-base.svg)](http://microbadger.com/images/madharjan/docker-base "Get your own image badge on microbadger.com")
+
 Docker baseimage based on [phusion/baseimage-docker](https://github.com/phusion/baseimage-docker)
 
 ## Build

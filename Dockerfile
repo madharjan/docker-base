@@ -1,13 +1,14 @@
 FROM ubuntu:14.04
 MAINTAINER Madhav Raj Maharjan <madhav.maharjan@gmail.com>
 
-LABEL description="Docker baseimage" os_version="Ubuntu 14.04"
-
-ENV HOME /root
-
+ARG VCS_REF
 ARG UBUNTU_VERSION
 ARG DEBUG=false
 
+LABEL description="Docker baseimage" os_version="Ubuntu ${UBUNTU_VERSION}" \
+      org.label-schema.vcs-ref=${VCS_REF} org.label-schema.vcs-url="https://github.com/madharjan/docker-base"
+
+ENV HOME /root
 ENV UBUNTU_VERSION ${UBUNTU_VERSION}
 
 RUN mkdir -p /build
