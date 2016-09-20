@@ -18,7 +18,7 @@ docker run -d -t \
 
 **Environment**
 
-| Environment    | Default | Set to disable |
+| Variable       | Default | Set to disable |
 |----------------|---------|----------------|
 | DISABLE_SYSLOG | 0       | 1              |
 | DISABLE_CRON   | 0       | 1              |
