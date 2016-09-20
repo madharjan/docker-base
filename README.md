@@ -4,41 +4,35 @@
 
 Docker baseimage based on [phusion/baseimage-docker](https://github.com/phusion/baseimage-docker)
 
+**Changes**
+* Removed `ssh` service
+* Added environment variables to disable services
+
+Example:
+```
+docker run -d -t \
+  -e DISABLE_SYSLOG=1 \
+  -e DISABLE_CRON=0 \
+  --name <container-name> -t <image-name>:<image-version>
+```
+
+**Environment**
+
+| Environment    | Default | Set to disable |
+|----------------|---------|----------------|
+| DISABLE_SYSLOG | 0       | 1              |
+| DISABLE_CRON   | 0       | 1              |
+
 ## Build
 
-**Clone this project**
+### Clone this project
 ```
 git clone https://github.com/madharjan/docker-base
 cd docker-base
 ```
 
-**Build Container `baseimage`**
-```
-# login to DockerHub
-docker login
-
-# build
-make
-
-# test
-make test
-
-# tag
-make tag_latest
-
-# update Makefile & Changelog.md
-# release
-make release
-```
-
-**Tag and Commit to Git**
-```
-git tag 14.04
-git push origin 14.04
-```
-
-### Development Environment
-using VirtualBox & Ubuntu Cloud Image (Mac & Windows)
+**For Mac & Windows**
+using VirtualBox & Ubuntu Cloud Image
 
 **Install Tools**
 
@@ -55,37 +49,36 @@ vagrant plugin install vagrant-vbguest
 [vagrant]: https://www.vagrantup.com/downloads.html
 [cygwin]: https://cygwin.com/install.html
 
-**Clone this project**
-
-```
-git clone https://github.com/madharjan/docker-base
-cd docker-base
-```
-
 **Startup Ubuntu VM on VirtualBox**
-
 ```
 vagrant up
+vagrant ssh
 ```
 
-**Build Container `baseimage`**
+**Change directory to Project Folder (within Ubuntu VM)**
+```
+cd /vagrant
+```
 
+### Build Container `baseimage`
 ```
 # login to DockerHub
-vagrant ssh -c "docker login"  
+docker login
 
 # build
-vagrant ssh -c "cd /vagrant; make"
+make
 
-# test
-vagrant ssh -c "cd /vagrant; make test"
+# tests
+make run
+make tests
+make clean
 
 # tag
-vagrant ssh -c "cd /vagrant; make tag_latest"
+make tag_latest
 
 # update Makefile & Changelog.md
 # release
-vagrant ssh -c "cd /vagrant; make release"
+make release
 ```
 
 **Tag and Commit to Git**

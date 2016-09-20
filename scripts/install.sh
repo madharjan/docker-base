@@ -3,10 +3,6 @@ set -e
 export LC_ALL=C
 export DEBIAN_FRONTEND=noninteractive
 
-# Set 1 to the service you want to disable
-export DISABLE_SYSLOG=${DISABLE_SYSLOG:-0}
-export DISABLE_CRON=${DISABLE_CRON:-0}
-
 if [ "${DEBUG}" == true ]; then
   set -x
 fi
@@ -74,10 +70,10 @@ ln -s /etc/container_environment.sh /etc/profile.d/
 apt-get install -y --no-install-recommends runit
 
 ## Install a syslog daemon and logrotate.
-[ "$DISABLE_SYSLOG" -eq 0 ] && /build/services/syslog-ng/syslog-ng.sh || true
+/build/services/syslog-ng/syslog-ng.sh
 
 ## Install cron daemon.
-[ "$DISABLE_CRON" -eq 0 ] && /build/services/cron/cron.sh || true
+/build/services/cron/cron.sh
 
 ## Often used tools.
 apt-get install -y --no-install-recommends \
@@ -90,3 +86,7 @@ apt-get install -y --no-install-recommends \
 ## This tool runs a command as another user and sets $HOME.
 cp /build/bin/setuser /sbin/setuser
 chmod 750 /sbin/setuser
+
+mkdir -p /etc/my_init.d
+cp /build/services/base-startup.sh /etc/my_init.d
+chmod 750 /etc/my_init.d/base-startup.sh

@@ -11,13 +11,15 @@ build:
 
 run:
 	docker run -d -t --name base -t $(NAME):$(VERSION)
+	docker run -d -t -e DISABLE_SYSLOG=1 --name base_no_syslog -t $(NAME):$(VERSION)
+	docker run -d -t -e DISABLE_CRON=1 --name base_no_cron -t $(NAME):$(VERSION)
 
 tests:
 	./bats/bin/bats test/tests.bats
 
 clean:
-	docker stop base
-	docker rm base
+	docker stop base base_no_syslog base_no_cron
+	docker rm base base_no_syslog base_no_cron
 
 tag_latest:
 	docker tag $(NAME):$(VERSION) $(NAME):latest
