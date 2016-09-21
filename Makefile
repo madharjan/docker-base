@@ -7,12 +7,23 @@ VERSION = 14.04
 all: build
 
 build:
-	docker build --build-arg UBUNTU_VERSION=${VERSION} --build-arg VCS_REF=`git rev-parse --short HEAD` --build-arg DEBUG=true -t $(NAME):$(VERSION) --rm .
+	docker build \
+	 --build-arg UBUNTU_VERSION=${VERSION} \
+	 --build-arg VCS_REF=`git rev-parse --short HEAD` \
+	 --build-arg DEBUG=true \
+	 -t $(NAME):$(VERSION) --rm .
 
 run:
-	docker run -d -t --name base -t $(NAME):$(VERSION)
-	docker run -d -t -e DISABLE_SYSLOG=1 --name base_no_syslog -t $(NAME):$(VERSION)
-	docker run -d -t -e DISABLE_CRON=1 --name base_no_cron -t $(NAME):$(VERSION)
+	docker run -d -t \
+	 --name base -t $(NAME):$(VERSION)
+
+	docker run -d -t \
+	 -e DISABLE_SYSLOG=1 \
+	 --name base_no_syslog -t $(NAME):$(VERSION)
+
+	docker run -d -t \
+	 -e DISABLE_CRON=1 \
+	 --name base_no_cron -t $(NAME):$(VERSION)
 
 tests:
 	./bats/bin/bats test/tests.bats
