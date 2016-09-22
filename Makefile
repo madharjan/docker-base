@@ -15,22 +15,25 @@ build:
 
 run:
 	docker run -d -t \
-	 --name base -t $(NAME):$(VERSION)
+		-e DEBUG=true \
+		--name base -t $(NAME):$(VERSION)
 
 	docker run -d -t \
-	 -e DISABLE_SYSLOG=1 \
-	 --name base_no_syslog -t $(NAME):$(VERSION)
+		-e DEBUG=true \
+		-e DISABLE_SYSLOG=1 \
+		--name base_no_syslog -t $(NAME):$(VERSION)
 
 	docker run -d -t \
-	 -e DISABLE_CRON=1 \
-	 --name base_no_cron -t $(NAME):$(VERSION)
+		-e DEBUG=true \
+		-e DISABLE_CRON=1 \
+		--name base_no_cron -t $(NAME):$(VERSION)
 
 tests:
 	./bats/bin/bats test/tests.bats
 
 clean:
-	docker stop base base_no_syslog base_no_cron
-	docker rm base base_no_syslog base_no_cron
+	docker stop base base_no_syslog base_no_cron || true
+	docker rm base base_no_syslog base_no_cron || true
 
 tag_latest:
 	docker tag $(NAME):$(VERSION) $(NAME):latest
@@ -43,4 +46,4 @@ release: run tests clean tag_latest
 	curl -X POST https://hooks.microbadger.com/images/madharjan/docker-base/x2dDUennV51OiIhNh02THCSOLW4=
 
 clean_images:
-		docker rmi $(NAME):latest $(NAME):$(VERSION) || true
+	docker rmi $(NAME):latest $(NAME):$(VERSION) || true
