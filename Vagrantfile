@@ -49,9 +49,6 @@ Vagrant.configure(2) do |config|
   # config.vm.network "public_network"
   # config.vm.synced_folder "../data", "/vagrant_data"
 
-  # for applicatin running as 'www-data' to be able to write within share folder
-  config.vm.synced_folder ".", "/vagrant", disabled: false, :mount_options => ["uid=33", "dmode=775"]
-
   config.vm.provider "virtualbox" do |vb|
     vb.name = $vm_name
     vb.gui = $vm_gui
