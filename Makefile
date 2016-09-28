@@ -14,19 +14,19 @@ build:
 	 -t $(NAME):$(VERSION) --rm .
 
 run:
-	docker run -d -t \
+	docker run -d \
 		-e DEBUG=true \
-		--name base -t $(NAME):$(VERSION)
+		--name base $(NAME):$(VERSION)
 
-	docker run -d -t \
+	docker run -d \
 		-e DEBUG=true \
 		-e DISABLE_SYSLOG=1 \
-		--name base_no_syslog -t $(NAME):$(VERSION)
+		--name base_no_syslog $(NAME):$(VERSION)
 
-	docker run -d -t \
+	docker run -d \
 		-e DEBUG=true \
 		-e DISABLE_CRON=1 \
-		--name base_no_cron -t $(NAME):$(VERSION)
+		--name base_no_cron $(NAME):$(VERSION)
 
 tests:
 	./bats/bin/bats test/tests.bats

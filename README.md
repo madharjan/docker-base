@@ -10,10 +10,10 @@ Docker baseimage based on [phusion/baseimage-docker](https://github.com/phusion/
 
 Example:
 ```
-docker run -d -t \
+docker run -d \
   -e DISABLE_SYSLOG=1 \
   -e DISABLE_CRON=0 \
-  --name <container-name> -t <image-name>:<image-version>
+  --name <container-name> <image-name>:<image-version>
 ```
 
 **Environment**
