@@ -31,35 +31,6 @@ git clone https://github.com/madharjan/docker-base
 cd docker-base
 ```
 
-**For Mac & Windows**
-using VirtualBox & Ubuntu Cloud Image
-
-**Install Tools**
-
-* [VirtualBox][virtualbox] 4.3.10 or greater
-* [Vagrant][vagrant] 1.6 or greater
-* [Cygwin][cygwin] (if using Windows)
-
-Install `vagrant-vbguest` plugin to auto install VirtualBox Guest Addition to virtual machine.
-```
-vagrant plugin install vagrant-vbguest
-```
-
-[virtualbox]: https://www.virtualbox.org/
-[vagrant]: https://www.vagrantup.com/downloads.html
-[cygwin]: https://cygwin.com/install.html
-
-**Startup Ubuntu VM on VirtualBox**
-```
-vagrant up
-vagrant ssh
-```
-
-**Change directory to Project Folder (within Ubuntu VM)**
-```
-cd /vagrant
-```
-
 ### Build Container `baseimage`
 ```
 # login to DockerHub
@@ -76,7 +47,7 @@ make clean
 # tag
 make tag_latest
 
-# update Makefile & Changelog.md
+# update Changelog.md
 # release
 make release
 ```

@@ -5,4 +5,3 @@ Makefile
 Vagrantfile
 .DS_Store
 *.swp
-bats
