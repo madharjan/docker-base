@@ -38,12 +38,6 @@
   [ "$status" -eq 1 ]
 }
 
-@test "checking process: total 8 only exists" {
-  run docker exec base /bin/bash -c "ps -ef | grep -v grep | grep -v 'ps -ef' | grep -v CMD | wc -l"
-  [ "$status" -eq 0 ]
-  [ "$output" -eq 9 ]
-}
-
 @test "checking file: setuser exists" {
   run docker exec base [ -f /sbin/setuser ]
   [ "$status" -eq 0 ]

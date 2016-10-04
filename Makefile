@@ -18,17 +18,24 @@ run:
 		-e DEBUG=true \
 		--name base $(NAME):$(VERSION)
 
+	sleep 1
+
 	docker run -d \
 		-e DEBUG=true \
 		-e DISABLE_SYSLOG=1 \
 		--name base_no_syslog $(NAME):$(VERSION)
+
+	sleep 1
 
 	docker run -d \
 		-e DEBUG=true \
 		-e DISABLE_CRON=1 \
 		--name base_no_cron $(NAME):$(VERSION)
 
+	sleep 1
+
 tests:
+	sleep 2
 	./bats/bin/bats test/tests.bats
 
 clean:
