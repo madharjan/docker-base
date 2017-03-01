@@ -230,6 +230,14 @@ def run_startup_files():
 		info("Running /etc/rc.local...")
 		run_command_killable_and_import_envvars("/etc/rc.local")
 
+def run_shutdown_files():
+	# Run /etc/my_shutdown.d/*
+	for name in listdir("/etc/my_shutdown.d"):
+		filename = "/etc/my_shutdown.d/" + name
+		if is_exe(filename):
+			info("Running %s..." % filename)
+			run_command_killable(filename)
+
 def start_runit():
 	info("Booting runit daemon...")
 	pid = os.spawnl(os.P_NOWAIT, "/usr/bin/runsvdir", "/usr/bin/runsvdir",
@@ -256,20 +264,13 @@ def wait_for_runit_services():
 		if not done:
 			time.sleep(0.1)
 
-def install_insecure_key():
-	info("Installing insecure SSH key for user root")
-	run_command_killable("/usr/sbin/enable_insecure_key")
-
 def main(args):
 	import_envvars(False, False)
 	export_envvars()
 
-	if args.enable_insecure_key:
-		install_insecure_key()
-
 	if not args.skip_startup_files:
 		run_startup_files()
-	
+
 	runit_exited = False
 	exit_code = None
 
@@ -307,6 +308,7 @@ def main(args):
 		sys.exit(exit_status)
 	finally:
 		if not args.skip_runit:
+			run_shutdown_files()
 			shutdown_runit_services()
 			if not runit_exited:
 				stop_child_process("runit daemon", runit_pid)
@@ -316,9 +318,6 @@ def main(args):
 parser = argparse.ArgumentParser(description = 'Initialize the system.')
 parser.add_argument('main_command', metavar = 'MAIN_COMMAND', type = str, nargs = '*',
 	help = 'The main command to run. (default: runit)')
-parser.add_argument('--enable-insecure-key', dest = 'enable_insecure_key',
-	action = 'store_const', const = True, default = False,
-	help = 'Install the insecure SSH key')
 parser.add_argument('--skip-startup-files', dest = 'skip_startup_files',
 	action = 'store_const', const = True, default = False,
 	help = 'Skip running /etc/my_init.d/* and /etc/rc.local')
