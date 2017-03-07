@@ -6,7 +6,12 @@ Docker baseimage based on [phusion/baseimage-docker](https://github.com/phusion/
 
 **Changes**
 * Removed `ssh` service
-* Added environment variables to disable services
+
+**Features**
+* Environment variables to disable services
+* Using scripts in `my_init.d` to initialize services (e.g base-startup.sh, nginx-startup.sh .. etc)
+* Using scripts in `my_shutdown.d` to cleanup services before container stop (e.g postfix-stop.sh ..etc)
+* Bats ([sstephenson/bats](https://github.com/sstephenson/bats/)) based test cases
 
 Example:
 ```
@@ -15,6 +20,8 @@ docker run -d \
   -e DISABLE_CRON=0 \
   --name <container-name> <image-name>:<image-version>
 ```
+
+## Ubuntu 14.04 (docker-base)
 
 **Environment**
 
