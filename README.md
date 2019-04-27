@@ -8,6 +8,7 @@ Docker baseimage based on [phusion/baseimage-docker](https://github.com/phusion/
 ## Changes
 
 * Removed `ssh` service
+* Updated to Ubuntu 16.04
 
 ## Features
 
@@ -25,7 +26,7 @@ docker run -d \
   --name <container-name> <image-name>:<image-version>
 ```
 
-## Ubuntu 14.04 (docker-base)
+## Ubuntu 16.04 (docker-base)
 
 ### Environment
 
@@ -68,6 +69,6 @@ make release
 ### Tag and Commit to Git
 
 ```bash
-git tag 14.04
-git push origin 14.04
+git tag 16.04
+git push origin 16.04
 ```
