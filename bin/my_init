@@ -217,9 +217,14 @@ def kill_all_processes(time_limit):
 	finally:
 		signal.alarm(0)
 
+def sorted_aphanumeric(data):
+    convert = lambda text: int(text) if text.isdigit() else text.lower()
+    alphanum_key = lambda key: [ convert(c) for c in re.split('([0-9]+)', key) ] 
+    return sorted(data, key=alphanum_key)
+
 def run_startup_files():
 	# Run /etc/my_init.d/*
-	for name in listdir("/etc/my_init.d"):
+	for name in sorted_aphanumeric(listdir("/etc/my_init.d")):
 		filename = "/etc/my_init.d/" + name
 		if is_exe(filename):
 			info("Running %s..." % filename)
@@ -232,7 +237,7 @@ def run_startup_files():
 
 def run_shutdown_files():
 	# Run /etc/my_shutdown.d/*
-	for name in listdir("/etc/my_shutdown.d"):
+	for name in sorted_aphanumeric(listdir("/etc/my_shutdown.d")):
 		filename = "/etc/my_shutdown.d/" + name
 		if is_exe(filename):
 			info("Running %s..." % filename)

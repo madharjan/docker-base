@@ -46,17 +46,18 @@ apt-get install -y --no-install-recommends \
   ca-certificates \
   language-pack-en \
   software-properties-common \
+  apt-utils
 
 locale-gen en_US
 update-locale LANG=en_US.UTF-8 LC_CTYPE=en_US.UTF-8
+mkdir -p /etc/container_environment
 echo -n en_US.UTF-8 > /etc/container_environment/LANG
 echo -n en_US.UTF-8 > /etc/container_environment/LC_CTYPE
 
 ## Install init process.
 cp /build/bin/my_init /sbin/
 chmod 750 /sbin/my_init
-mkdir -p /etc/my_init.d
-mkdir -p /etc/container_environment
+
 touch /etc/container_environment.sh
 touch /etc/container_environment.json
 chmod 700 /etc/container_environment
@@ -65,6 +66,9 @@ groupadd -g 8377 docker_env
 chown :docker_env /etc/container_environment.sh /etc/container_environment.json
 chmod 640 /etc/container_environment.sh /etc/container_environment.json
 ln -s /etc/container_environment.sh /etc/profile.d/
+
+mkdir -p /etc/my_init.d
+mkdir -p /etc/my_shutdown.d
 
 ## Install runit.
 apt-get install -y --no-install-recommends runit
@@ -87,6 +91,8 @@ apt-get install -y --no-install-recommends \
 cp /build/bin/setuser /sbin/setuser
 chmod 750 /sbin/setuser
 
-mkdir -p /etc/my_init.d
-cp /build/services/base-startup.sh /etc/my_init.d
-chmod 750 /etc/my_init.d/base-startup.sh
+cp /build/services/10-startup.sh /etc/my_init.d
+cp /build/services/90-shutdown.sh /etc/my_shutdown.d
+
+chmod 750 /etc/my_init.d/10-startup.sh
+chmod 750 /etc/my_shutdown.d/90-shutdown.sh

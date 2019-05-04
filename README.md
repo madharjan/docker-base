@@ -15,7 +15,7 @@ Docker baseimage based on [phusion/baseimage-docker](https://github.com/phusion/
 * Environment variables to disable services
 * Using scripts in `my_init.d` to initialize services (e.g base-startup.sh, nginx-startup.sh .. etc)
 * Using scripts in `my_shutdown.d` to cleanup services before container stop (e.g postfix-stop.sh ..etc)
-* Bats ([sstephenson/bats](https://github.com/sstephenson/bats/)) based test cases
+* Bats ([bats-core/bats-core](https://github.com/bats-core/bats-core)) based test cases
 
 Example:
 
