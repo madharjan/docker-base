@@ -2,6 +2,8 @@
 NAME = madharjan/docker-base
 VERSION = 16.04
 
+DEBUG ?= true
+
 .PHONY: all build run tests clean tag_latest release clean_images
 
 all: build
@@ -10,25 +12,25 @@ build:
 	docker build \
 	 --build-arg UBUNTU_VERSION=${VERSION} \
 	 --build-arg VCS_REF=`git rev-parse --short HEAD` \
-	 --build-arg DEBUG=true \
+	 --build-arg DEBUG=$(DEBUG) \
 	 -t $(NAME):$(VERSION) --rm .
 
 run:
 	docker run -d \
-		-e DEBUG=true \
+		-e DEBUG=$(DEBUG) \
 		--name base $(NAME):$(VERSION)
 
 	sleep 1
 
 	docker run -d \
-		-e DEBUG=true \
+		-e DEBUG=$(DEBUG) \
 		-e DISABLE_SYSLOG=1 \
 		--name base_no_syslog $(NAME):$(VERSION)
 
 	sleep 1
 
 	docker run -d \
-		-e DEBUG=true \
+		-e DEBUG=$(DEBUG) \
 		-e DISABLE_CRON=1 \
 		--name base_no_cron $(NAME):$(VERSION)
 
