@@ -18,7 +18,8 @@ build:
 run:
 	docker run -d \
 		-e DEBUG=$(DEBUG) \
-		--name base $(NAME):$(VERSION)
+		--name base $(NAME):$(VERSION) \
+		/sbin/my_init --log-level 3
 
 	sleep 1
 
@@ -40,8 +41,10 @@ tests:
 	sleep 2
 	./bats/bin/bats test/tests.bats
 
-clean:
+stop:
 	docker stop base base_no_syslog base_no_cron || true
+
+clean: stop
 	docker rm base base_no_syslog base_no_cron || true
 
 tag_latest:
@@ -51,7 +54,7 @@ release: run tests clean tag_latest
 	@if ! docker images $(NAME) | awk '{ print $$2 }' | grep -q -F $(VERSION); then echo "$(NAME) version $(VERSION) is not yet built. Please run 'make build'"; false; fi
 	docker push $(NAME)
 	@echo "*** Don't forget to create a tag. git tag $(VERSION) && git push origin $(VERSION) ***"
-	curl -X POST https://hooks.microbadger.com/images/madharjan/docker-base/x2dDUennV51OiIhNh02THCSOLW4=
+	curl -s -X POST https://hooks.microbadger.com/images/madharjan/docker-base/x2dDUennV51OiIhNh02THCSOLW4=
 
 clean_images:
 	docker rmi $(NAME):latest $(NAME):$(VERSION) || true

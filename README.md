@@ -61,7 +61,6 @@ make clean
 # tag
 make tag_latest
 
-# update Changelog.md
 # release
 make release
 ```
