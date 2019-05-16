@@ -46,6 +46,7 @@ stop:
 
 clean: stop
 	docker rm base base_no_syslog base_no_cron || true
+	docker images | grep "^<none>" | awk '{print$3 }' | xargs docker rmi || true
 
 tag_latest:
 	docker tag $(NAME):$(VERSION) $(NAME):latest
