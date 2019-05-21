@@ -13,61 +13,49 @@ Docker baseimage based on [phusion/baseimage-docker](https://github.com/phusion/
 ## Features
 
 * Environment variables to disable services
-* Using scripts in `my_init.d` to initialize services (e.g base-startup.sh, nginx-startup.sh .. etc)
-* Using scripts in `my_shutdown.d` to cleanup services before container stop (e.g postfix-stop.sh ..etc)
+* Using scripts in `my_init.d` to initialize services (e.g 10-startup.sh, 20-nginx.sh .. etc)
+* Using scripts in `my_shutdown.d` to cleanup services before container stop (e.g 80-postfix.sh ..etc)
 * Bats ([bats-core/bats-core](https://github.com/bats-core/bats-core)) based test cases
-
-Example:
-
-```bash
-docker run -d \
-  -e DISABLE_SYSLOG=1 \
-  -e DISABLE_CRON=0 \
-  --name <container-name> <image-name>:<image-version>
-```
 
 ## Ubuntu 16.04 (docker-base)
 
 ### Environment
 
-| Variable       | Default | Set to disable |
+| Variable       | Default | Example        |
 |----------------|---------|----------------|
-| DISABLE_SYSLOG | 0       | 1              |
-| DISABLE_CRON   | 0       | 1              |
+| DISABLE_SYSLOG | 0       | 1 (to disable) |
+| DISABLE_CRON   | 0       | 1 (to disable) |
 
 ## Build
 
-### Clone this project
-
 ```bash
+# clone project
 git clone https://github.com/madharjan/docker-base
 cd docker-base
-```
-
-### Build Container `baseimage`
-
-```bash
-# login to DockerHub
-docker login
 
 # build
 make
 
 # tests
 make run
-make tests
+make test
+
+# clean
 make clean
-
-# tag
-make tag_latest
-
-# release
-make release
 ```
 
-### Tag and Commit to Git
+## Run
 
 ```bash
-git tag 16.04
-git push origin 16.04
+# stop & remove previous instances
+docker stop base
+docker rm base
+
+# run container
+docker run -d \
+  -e DEBUG=false \
+  -e DISABLE_SYSLOG=0 \
+  -e DISABLE_CRON=0 \
+  --name base madharjan/docker-base:16.04 \
+  /sbin/my_init --log-level 3
 ```

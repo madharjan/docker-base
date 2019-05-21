@@ -1,12 +1,12 @@
-# 16.04
+## 16.04
 
-## Changes
+### Changes
 
 * Updated to Ubuntu 16.04
 
-# 14.04
+## 14.04
 
-## Changes
+### Changes
 
 * Using Ubuntu 14.04
 * Version follows Ubuntu Version
