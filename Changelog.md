@@ -1,12 +1,14 @@
-## 16.04
+# Change log
 
-### Changes
+## 20.04
+
+* Updated to Ubuntu 20.04
+
+## 16.04
 
 * Updated to Ubuntu 16.04
 
 ## 14.04
-
-### Changes
 
 * Using Ubuntu 14.04
 * Version follows Ubuntu Version

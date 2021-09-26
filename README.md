@@ -1,14 +1,13 @@
 # docker-base
 
 [![Build Status](https://travis-ci.com/madharjan/docker-base.svg?branch=master)](https://travis-ci.com/madharjan/docker-base)
-[![Layers](https://images.microbadger.com/badges/image/madharjan/docker-base.svg)](http://microbadger.com/images/madharjan/docker-base)
 
 Docker baseimage based on [phusion/baseimage-docker](https://github.com/phusion/baseimage-docker)
 
 ## Changes
 
 * Removed `ssh` service
-* Updated to Ubuntu 16.04
+* Updated to Ubuntu 20.04
 
 ## Features
 
@@ -17,7 +16,7 @@ Docker baseimage based on [phusion/baseimage-docker](https://github.com/phusion/
 * Using scripts in `my_shutdown.d` to cleanup services before container stop (e.g 80-postfix.sh ..etc)
 * Bats ([bats-core/bats-core](https://github.com/bats-core/bats-core)) based test cases
 
-## Ubuntu 16.04 (docker-base)
+## Ubuntu 20.04 (docker-base)
 
 ### Environment
 
@@ -56,6 +55,6 @@ docker run -d \
   -e DEBUG=false \
   -e DISABLE_SYSLOG=0 \
   -e DISABLE_CRON=0 \
-  --name base madharjan/docker-base:16.04 \
+  --name base madharjan/docker-base:20.04 \
   /sbin/my_init --log-level 3
 ```

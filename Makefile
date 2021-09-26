@@ -1,6 +1,6 @@
 
 NAME = madharjan/docker-base
-VERSION = 16.04
+VERSION = 20.04
 
 DEBUG ?= true
 
