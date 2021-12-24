@@ -3,7 +3,7 @@ branches:
   only:
   - master
 
-dist: xenial
+dist: focal
 language: minimal
 
 jobs:
